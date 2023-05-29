@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Emotion Recognition</title>
+</head>
+<body>
+    <form id="upload-form">
+        <label for="image">Upload an image:</label>
+        <input type="file" name="image" id="image">
+        <br><br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        const form = document.getElementById('upload-form');
+
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const fileInput = document.getElementById('image');
+            const file = fileInput.files[0];
+            const url = 'https://9494-2409-4056-d81-ec34-6df9-cf8b-b03b-7901.ngrok-free.app/api/emotions/image';
+
+            const reader = new FileReader();
+
+            reader.onload = () => {
+                const data = {
+                    image: reader.result
+                };
+
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => {
+                    // handle response
+					console.log(response)
+                })
+                .catch(error => {
+                    // handle error
+                });
+            };
+
+            reader.readAsDataURL(file);
+        });
+    </script>
+</body>
+</html>
